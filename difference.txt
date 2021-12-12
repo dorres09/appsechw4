@@ -1,0 +1,19 @@
+Part 2.1
+
+1. What are the two types of Intents?
+Explicit and Implicit. Explicit intent specifies the component and provides the external class to be invoked. Implicit intent doesn't specify the component and provides information on available components provided by the system that is to be invoked.
+
+2. Which of the two types of Intents are more secure?
+Explicit intent is more secure than implicit intent. It is not certain what service will respond to the intent and the user cannot see which service starts when using implicit intent.
+
+3. What type of Intent is shown on lines 69 to 73 of SecondFragment.kt
+Implicit intent is shown because intent is declared as Intent(Intent.ACTION_VIEW). It does not specify which activity.
+
+4. What type of Intent is shown on lines 68 to 70 of ThirdFragment.kt
+Explicit intent is shown because intent is declared as Intent(activity, ProductScrollingActivity::class.java). It specifies ProductScrollingActivity.
+
+5. Which of these two intents is the proper way to do an Intent?
+Explicit intent from ThirdFragment.kt is the proper way to do an Intent. As mentioned in question 2, explicit intent is more secure than implicit intent.
+
+Fix the incorrect Intent
+Changed the line 69 of SecondFragment.kt from var intent = Intent(Intent.ACTION_VIEW) to var intent = Intent(activity, ProductScrollingActivity::class.java) because as mentioned in question 2 and 5 that explicit intent is more secure and proper than implicit intent.

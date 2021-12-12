@@ -39,14 +39,15 @@ class ProductScrollingActivity : AppCompatActivity(), SensorEventListener, Locat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val locationPermissionCode = 2
-        var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        // Part 5: Removing all areas that needlessly interact with sensors and all permissions that are not needed for the basic functionality of the application (buying, browsing, and using gift cards)
+		//val locationPermissionCode = 2
+        //var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        //if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+        //    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
+        //}
+        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+        //sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        //mAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         setContentView(R.layout.activity_scrolling)
         setSupportActionBar(findViewById(R.id.toolbar))
         findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout).title = title
@@ -58,7 +59,8 @@ class ProductScrollingActivity : AppCompatActivity(), SensorEventListener, Locat
             startActivity(intent)
         }
         //var productList: List<Product?>? = null
-        var builder: Retrofit.Builder = Retrofit.Builder().baseUrl("http://appsecclass.report").addConverterFactory(
+        // Part 3
+		var builder: Retrofit.Builder = Retrofit.Builder().baseUrl("https://appsecclass.report").addConverterFactory(
                 GsonConverterFactory.create())
         var retrofit: Retrofit = builder.build()
         var client: ProductInterface = retrofit.create(ProductInterface::class.java)
@@ -98,25 +100,28 @@ class ProductScrollingActivity : AppCompatActivity(), SensorEventListener, Locat
 
     override fun onLocationChanged(location: Location) {
         var userInfoContainer = UserInfoContainer(location, null, loggedInUser?.token)
-        var builder: Retrofit.Builder = Retrofit.Builder().baseUrl("http://appsecclass.report").addConverterFactory(
+        // Part 3
+		var builder: Retrofit.Builder = Retrofit.Builder().baseUrl("https://appsecclass.report").addConverterFactory(
             GsonConverterFactory.create())
         var retrofit: Retrofit = builder.build()
         var client: UserInfo = retrofit.create(UserInfo::class.java)
 
         client.postInfo(userInfoContainer, loggedInUser?.token)?.enqueue(object: Callback<User?> {
             override fun onFailure(call: Call<User?>, t: Throwable) {
-                Log.d("Metric Failure", "Metric Failure in onFailure")
-                Log.d("Metric Failure", t.message.toString())
+                // Part 5: Removing all metric collecting code
+				//Log.d("Metric Failure", "Metric Failure in onFailure")
+                //Log.d("Metric Failure", t.message.toString())
 
             }
 
             override fun onResponse(call: Call<User?>, response: Response<User?>) {
-                if (!response.isSuccessful) {
-                    Log.d("Metric Failure", "Metric failure. Yay.")
-                } else {
-                    Log.d("Metric Success", "Metric success. Boo.")
-                    Log.d("Metric Success", "Token:${userInfoContainer.token}")
-                }
+                // Part 5: Removing all metric collecting code
+				//if (!response.isSuccessful) {
+                //    Log.d("Metric Failure", "Metric failure. Yay.")
+                //} else {
+                //    Log.d("Metric Success", "Metric success. Boo.")
+                //    Log.d("Metric Success", "Token:${userInfoContainer.token}")
+                //}
             }
         })
     }
@@ -124,7 +129,8 @@ class ProductScrollingActivity : AppCompatActivity(), SensorEventListener, Locat
     override fun onSensorChanged(event: SensorEvent?) {
         if (event != null) {
             var userInfoContainer = UserInfoContainer(null, event.values[0].toString(), loggedInUser?.token)
-            var builder: Retrofit.Builder = Retrofit.Builder().baseUrl("http://appsecclass.report").addConverterFactory(
+            // Part 3
+			var builder: Retrofit.Builder = Retrofit.Builder().baseUrl("https://appsecclass.report").addConverterFactory(
                 GsonConverterFactory.create())
             var retrofit: Retrofit = builder.build()
             var client: UserInfo = retrofit.create(UserInfo::class.java)
@@ -135,18 +141,20 @@ class ProductScrollingActivity : AppCompatActivity(), SensorEventListener, Locat
             }
             client.postInfo(userInfoContainer, loggedInUser?.token)?.enqueue(object: Callback<User?> {
                 override fun onFailure(call: Call<User?>, t: Throwable) {
-                    Log.d("Metric Failure", "Metric Failure in onFailure")
-                    Log.d("Metric Failure", t.message.toString())
+                    // Part 5: Removing all metric collecting code
+					//Log.d("Metric Failure", "Metric Failure in onFailure")
+                    //Log.d("Metric Failure", t.message.toString())
 
                 }
 
                 override fun onResponse(call: Call<User?>, response: Response<User?>) {
-                    if (!response.isSuccessful) {
-                        Log.d("Metric Failure", "Metric failure. Yay.")
-                    } else {
-                        Log.d("Metric Success", "Metric success. Boo.")
-                        Log.d("Metric Success", "Token:${userInfoContainer.token}")
-                    }
+                    // Part 5: Removing all metric collecting code
+					//if (!response.isSuccessful) {
+                    //    Log.d("Metric Failure", "Metric failure. Yay.")
+                    //} else {
+                    //    Log.d("Metric Success", "Metric success. Boo.")
+                    //    Log.d("Metric Success", "Token:${userInfoContainer.token}")
+                    //}
                 }
             })
         }
@@ -156,16 +164,17 @@ class ProductScrollingActivity : AppCompatActivity(), SensorEventListener, Locat
         return
     }
 
-    override fun onResume() {
-        super.onResume()
-        mAccel?.also { accel ->
-            sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_NORMAL)
-        }
-    }
+    // Part 5: Removing all areas that needlessly interact with sensors
+	//override fun onResume() {
+    //    super.onResume()
+    //    mAccel?.also { accel ->
+    //        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_NORMAL)
+    //    }
+    //}
 
-    override fun onPause() {
-        super.onPause()
-        sensorManager.unregisterListener(this)
-    }
+    //override fun onPause() {
+    //    super.onPause()
+    //    sensorManager.unregisterListener(this)
+    //}
 
 }

@@ -1,0 +1,3 @@
+Part 4
+
+The vulnerability may be occurring because it is allowing any user to use any giftcards by using line 9-10 in CardInterface.kt . Attacker can manipulate this vulnerability by using giftcards that belong to other users. This vulnerability can be fixed by adding a field where it checks for a user trying to use a giftcard and the owner of the giftcard.
